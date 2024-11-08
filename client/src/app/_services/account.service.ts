@@ -9,14 +9,14 @@ import { map } from 'rxjs';
 export class AccountService {
   private http = inject(HttpClient);
   baseUrl = 'https://localhost:5001/api/';
-  currentuser = signal<User | null>(null);
+  currentUser = signal<User | null>(null);
 
   login(model: any){
     return this.http.post<User>(this.baseUrl + 'account/login', model).pipe(
       map(user => {
         if (user) {
           localStorage.setItem('user', JSON.stringify(user));
-          this.currentuser.set(user);
+          this.currentUser.set(user);
         }
       })
     )
@@ -27,7 +27,7 @@ export class AccountService {
       map(user => {
         if (user) {
           localStorage.setItem('user', JSON.stringify(user));
-          this.currentuser.set(user);
+          this.currentUser.set(user);
         }
         return user;
       })
@@ -37,6 +37,6 @@ export class AccountService {
 
   logout() {
     localStorage.removeItem('user');
-    this.currentuser.set(null);
+    this.currentUser.set(null);
   }
 }
